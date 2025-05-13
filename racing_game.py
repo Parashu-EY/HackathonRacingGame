@@ -1,5 +1,6 @@
 import pygame
 import logging
+import uuid
 
 # Initialize Pygame
 pygame.init()
@@ -10,6 +11,12 @@ logging.basicConfig(
     level=logging.INFO,         # Log level
     format="%(asctime)s - %(message)s"  # Log format
 )
+# Prompt for user ID
+user_id = input("Enter your Name: ").strip()
+if not user_id:
+    user_id = "Guest"  # Default to "Guest" if no input is provided
+session_id = str(uuid.uuid4())  # Generate a unique session ID for this game session
+
 
 #importing modules
 import time
@@ -138,7 +145,10 @@ def game_loop():
 
         # Log player's x position and game time
         game_time = pygame.time.get_ticks() / 1000  # Convert milliseconds to seconds
-        logging.info(f"Player X Position: {x}, Game Time: {game_time:.2f} seconds")
+        logging.info(
+            f"PLAYER_POSITION: User ID: {user_id}, Session ID: {session_id}, "
+            f"Player X Position: {x}, Game Time: {game_time:.2f} seconds"
+        )
 
         # Background color
         screen.fill((119, 119, 119))  # Fill the background first
@@ -192,6 +202,12 @@ def game_loop():
         pygame.display.update()
         clock.tick(200)  # Set the frame rate to 100 FPS
 
+# Log session start
+logging.info(f"SESSION_START: User ID: {user_id}, Session ID: {session_id}")
+
 # Quit Pygame
 game_loop()
+# Log session end
+logging.info(f"SESSION_END: User ID: {user_id}, Session ID: {session_id}")
+# Quit Pygame
 pygame.quit()
